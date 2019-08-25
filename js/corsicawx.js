@@ -61,14 +61,14 @@ if (choosePic(title)) {
 
 }
 
-function compasspoint(bearing){
-    let allpoints = ['North','Northeast','East','Southeast','South','Southwest','West','Northwest','North'];
+const compasspoint = bearing => {
+    let allpoints = ['North','NE','East','SE','South','SW','West','NW','North'];
     return allpoints[Math.round(((bearing+22.5)/22.5)/2)];
 }
 
-function weekday(timestamp){
-    var theday = new Date(timestamp * 1000);
-    let dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+const weekday = timestamp => {
+    const theday = new Date(timestamp * 1000);
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
     return dayNames[theday.getDay()];
 }
 
