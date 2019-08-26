@@ -152,11 +152,14 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
         let daysTemp = document.getElementById(`highTemp-${day}`);
         if ((tempScale == "F" && highTemp > 90) || (tempScale == "C" && highTemp > 32)) {
             daysTemp.classList.add("heatwave");
+            daysTemp.style.color = "#FF0E18";
         } 
         daysTemp.innerText = `${Math.round(wx.daily.data[day].temperatureHigh)}`;
         
         document.getElementById(`lowTemp-${day}`).innerText = `${Math.round(wx.daily.data[day].temperatureLow)}`;
     }
+
+    document.getElementById("alert").innerText = (wx.alerts[0].title);
 
     // All will be revealed in the main salon at midnight.
     document.getElementById('forecast').style.visibility = "visible";

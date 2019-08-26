@@ -14,7 +14,7 @@ a {
     display: grid;
     grid-template-areas:
     "title title title title title . credits credits"
-    " . . alert alert alert alert alert alert"     
+    " . . . . alert alert alert alert"     
     "skycon skycon temp temp synopsis synopsis synopsis synopsis"
     "day-0 day-1 day-2 day-3 day-4 day-5 day-6 day-7";
     grid-template-columns: repeat(8, 1fr); 
@@ -46,8 +46,9 @@ a {
 
 #alert {
     grid-area: alert;
-    font-size: 1.8vw;
-    color: rgb(116, 59, 3);
+    font-size: 2.5vw;
+    margin-bottom: -5vh;
+    color: rgb(255, 14, 24);
 }
 
 #currentCondx {
@@ -168,7 +169,7 @@ a {
     color: white;
     margin: -1vw auto;
 }
-
+ 
 .lowTemp {
     display: block;
     font-size: 4vw;
