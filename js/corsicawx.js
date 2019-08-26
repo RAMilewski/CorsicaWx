@@ -2,6 +2,7 @@
 
 const wxproxy = 'https://corsica.netfools.com/wxproxy';
 const skyconPath = "./graphics/skycons/";
+const skyconType = ".png";
 const backgroundPath = "./graphics/images/";
 let   allowWxOverride = true;   //True allows override of location images for some wx condx.
 
@@ -138,7 +139,7 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
 
     for (let day = 0 ; day < 8 ; day++ ) {   //  Fill in the daily data across the bottom. 
 
-        let weekDay = weekday(wx.daily.data[day].time);
+        let weekDay = weekday(wx.daily.data[day].time); 
     
         if (!day) {
             document.getElementById(`weekday-${day}`).innerText = "Today";
@@ -146,7 +147,7 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
             document.getElementById(`weekday-${day}`).innerText = weekday(wx.daily.data[day].time);
         }
         
-        document.getElementById(`skycon-${day}`).src = `${skyconPath}${wx.daily.data[day].icon}.png`;
+        document.getElementById(`skycon-${day}`).src = `${skyconPath}${wx.daily.data[day].icon}${skyconType}`;
 
         let highTemp = Math.round(wx.daily.data[day].temperatureHigh);
         let daysTemp = document.getElementById(`highTemp-${day}`);
