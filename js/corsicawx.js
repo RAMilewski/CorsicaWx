@@ -3,27 +3,12 @@
 const wxproxy = 'https://corsica.netfools.com/wxproxy';
 const skyconPath = "./graphics/skycons/";
 const backgroundPath = "./graphics/images/";
-let   allowWxOverride = true;
+let   allowWxOverride = true;   //True allows override of location images for some wx condx.
 
-
-const pictures = [
-    ["default","clouds001.jpg"],
-    ["rain", "rain001.gif", "rain002.gif", "rain003.gif"],
-    ["snow","clouds001.jpg"],
-    ["sleet","clouds001.jpg"],
-    ["fog","clouds001.jpg"],
-    ["Salem", "Salem001.jpg", "Salem002.jpg", "Salem003.jpg"],
-    ["McMenamins Edgefield", "Edgefield001.jpg"],
-    ["Riverfront Park", "salem-riverfront-park-3.jpg", "salem-riverfront-park-4.jpg"],
-    ["Multnomah Falls", "Falls2.gif", "Falls3.gif"]
-];
-
+import {pictures} from "./backgroundCatalog.js";
 
 //Test Data
-let lat = 45.537;
-let lng = -122.406;
-let title = "Salem";
-
+let lat, lng, title = null;
 
 lat = 45.577464;
 lng = -122.117356; 
@@ -31,7 +16,13 @@ title = "Multnomah Falls";
 
 lat = 40.266664
 lng = -94.031231
-title = "Bethany Missouri"
+title = "Bethany Missouri";
+
+lat = 45.537;
+lng = -122.406;
+title = "Salem";
+
+
 
 
 let params = (new URL(document.location)).searchParams;
@@ -43,23 +34,19 @@ if (geo !== null) {
 }
 
 const choosePic = topic => {
+    let imgLink = null;
     const row = pictures.find(row => row[0] == topic);
     if (row) 
         {const index = Math.floor(Math.random() * (row.length - 1)) + 1; 
-        return row[index];
+        imgLink =  `url(${backgroundPath}${row[index]}`;
     } else {
-        return null;
+       choosePic("default");
+       allowWxOverride = true;  //No location image so we can always override
     }
-
+    document.body.style.backgroundImage = imgLink;
 };
 
-if (choosePic(title)) {
-    document.body.style.backgroundImage = `url(${backgroundPath}${choosePic(title)}`;
-} else {
-    document.body.style.backgroundImage = `url(${backgroundPath}${choosePic("default")}`;
-    allowWxOverride = true;
-
-}
+choosePic(title);   // If we have location-related background images for this location use one.
 
 const compasspoint = bearing => {
     let allpoints = ['North','NE','East','SE','South','SW','West','NW','North'];
@@ -79,7 +66,9 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
 .then(function(wx) {
     
 /*
-    summary: Any summaries containing temperature or snow accumulation units will have their values in degrees Celsius or in centimeters (respectively).
+    ** Default Units **
+
+    Summaries containing temperature or snow accumulation units will have their values in degrees Celsius or in centimeters (respectively).
     nearestStormDistance: Kilometers.
     precipIntensity: Millimeters per hour.
     precipIntensityMax: Millimeters per hour.
@@ -100,8 +89,8 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
     let distance = 'km';
     let precipRate = 'mm/hr';
     let snow = 'cm';
-    
-    switch (wx.flags.units) {
+
+    switch (wx.flags.units) {  // Overrides of default units 
         case 'us' :
             tempScale = 'F';
             windSpeed = 'mph';
@@ -118,14 +107,11 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
             distance = "mi.";
         default:
             console.log('Error: unknown units');
-
     }
     
-    //Wx-driven Background Image Override
-    if (allowWxOverride) {
-        if (wx.currently.icon == "rain" | "snow" | "sleet" ) {
-            document.body.style.backgroundImage = `url(${backgroundPath}${choosePic(wx.currently.icon)}`;
-        }
+    //If we allow WxOverrides and we have images for this wx condx, use one.
+    if (allowWxOverride && pictures.find(row => row[0] == wx.currently.icon)) {  
+        choosePic(wx.currently.icon);
     }
     
     document.getElementById('title').innerText = title;
@@ -159,11 +145,19 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
         } else {
             document.getElementById(`weekday-${day}`).innerText = weekday(wx.daily.data[day].time);
         }
+        
         document.getElementById(`skycon-${day}`).src = `${skyconPath}${wx.daily.data[day].icon}.png`;
-        document.getElementById(`highTemp-${day}`).innerText = `${Math.round(wx.daily.data[day].temperatureHigh)}`;
+
+        let highTemp = Math.round(wx.daily.data[day].temperatureHigh);
+        let daysTemp = document.getElementById(`highTemp-${day}`);
+        if ((tempScale == "F" && highTemp > 90) || (tempScale == "C" && highTemp > 32)) {
+            daysTemp.classList.add("heatwave");
+        } 
+        daysTemp.innerText = `${Math.round(wx.daily.data[day].temperatureHigh)}`;
+        
         document.getElementById(`lowTemp-${day}`).innerText = `${Math.round(wx.daily.data[day].temperatureLow)}`;
     }
 
+    // All will be revealed in the main salon at midnight.
     document.getElementById('forecast').style.visibility = "visible";
-
 });
