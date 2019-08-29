@@ -1,53 +1,45 @@
 'use strict';
 
 const wxproxy = 'https://corsica.netfools.com/wxproxy';
-const skyconPath = "./graphics/skycons/";
+const skyconPath = "./images/skycons/";
 const skyconType = ".png";
-const backgroundPath = "./graphics/images/";
+const imagePath = "./images/";
 let   allowWxOverride = true;   //True allows override of location images for some wx condx.
+import {pictures} from "./imageCatalog.js";
 
-import {pictures} from "./backgroundCatalog.js";
 
-//Test Data
 let lat, lng, title = null;
-
-lat = 45.577464;
-lng = -122.117356; 
-title = "Multnomah Falls";
-
-lat = 40.266664
-lng = -94.031231
-title = "Bethany Missouri";
-
-lat = 45.537;
-lng = -122.406;
-title = "Salem";
-
-
-
-
 let params = (new URL(document.location)).searchParams;
-let geo = params.get('geo'); // Geolocation (lat|lon|title)
+let geo = params.get('geo'); // Geolocation (lat|lng|title)
 if (geo !== null) {
     lat = geo.split('|')[0];
     lng = geo.split('|')[1];
     title = geo.split('|')[2];
 }
 
-const choosePic = topic => {
-    let imgLink = null;
-    const row = pictures.find(row => row[0] == topic);
-    if (row) 
-        {const index = Math.floor(Math.random() * (row.length - 1)) + 1; 
-        imgLink =  `url(${backgroundPath}${row[index]}`;
+const choosePic = topic => {   
+    let row = pictures.find(row => row[0] == topic);
+    if (row != null) {
+        const index = Math.floor(Math.random() * (row.length - 1)) + 1; 
+        document.body.style.backgroundImage = `url(${imagePath}${row[index]})`;
     } else {
-       choosePic("default");
-       allowWxOverride = true;  //No location image so we can always override
+        choosePic("default");
+        allowWxOverride = true;  //No location image so we can always override
     }
-    document.body.style.backgroundImage = imgLink;
 };
 
-choosePic(title);   // If we have location-related background images for this location use one.
+choosePic(title);   // If we have location-related background images for this location use one, otherwise use the default.
+
+const rephrase = text => {
+    let regex = '/throughou\sthe/gi';  // There's clearly something about text.replace I don't understand.
+    text = text.replace('throughout the', 'all');
+    regex = "/high\stemperatures/gi";
+    text = text.replace('high temperatures', 'highs');
+    regex = "/low\stemperatures/gi";
+    text = text.replace('low temperatures', 'lows');
+    return text;
+}
+
 
 const compasspoint = bearing => {
     let allpoints = ['North','NE','East','SE','South','SW','West','NW','North'];
@@ -68,7 +60,6 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
     
 /*
     ** Default Units **
-
     Summaries containing temperature or snow accumulation units will have their values in degrees Celsius or in centimeters (respectively).
     nearestStormDistance: Kilometers.
     precipIntensity: Millimeters per hour.
@@ -107,19 +98,18 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
             windSpeed = 'mph';
             distance = "mi.";
         default:
-            console.log('Error: unknown units');
+            console.log('Error: unknown units requested');
     }
     
     //If we allow WxOverrides and we have images for this wx condx, use one.
-    if (allowWxOverride && pictures.find(row => row[0] == wx.currently.icon)) {  
-        choosePic(wx.currently.icon);
-    }
+    if (allowWxOverride && pictures.find(row => row[0] == wx.currently.icon)) { choosePic(wx.currently.icon); }
     
     document.getElementById('title').innerText = title;
     document.getElementById('skyconPrime').src = `${skyconPath}${wx.currently.icon}.png`;
     document.getElementById('temp0').innerText = `${Math.round(wx.currently.temperature)}`;
    
     document.getElementById('tempScale').innerText = tempScale;
+    document.getElementById('humidity').innerText = `Humidity: ${parseInt(wx.currently.humidity * 100)}%`;
     if (wx.currently.apparentTemperature > wx.currently.Temperature + 1) {
     document.getElementById('heatIndex').innerText = `Heat Index: ${Math.round(wx.currently.apparentTemperature)}`;
     }
@@ -127,7 +117,8 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
         document.getElementById('uvIndex').innerText = `UV Index: ${Math.round(10 * wx.currently.uvIndex)/10}`;
     }
     
-    document.getElementById("summary").innerText = wx.hourly.summary;
+    if (wx.alerts) {document.getElementById("alert").innerText = (wx.alerts[0].title);}
+    document.getElementById("summary").innerText = rephrase(wx.hourly.summary);
     
 
     let compass = compasspoint(wx.currently.windBearing);
@@ -135,7 +126,8 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
     if ((wx.currently.windGust)-2 > wx.currently.windSpeed) {
         document.getElementById("gust").innerText = `gusting to ${Math.round(wx.currently.windGust)} mph`;
     }
-    // document.getElementById("summary2").innerText = wx.daily.summary;
+    
+    document.getElementById("summary2").innerText = rephrase(wx.daily.summary);
 
     for (let day = 0 ; day < 8 ; day++ ) {   //  Fill in the daily data across the bottom. 
 
@@ -159,8 +151,6 @@ fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
         
         document.getElementById(`lowTemp-${day}`).innerText = `${Math.round(wx.daily.data[day].temperatureLow)}`;
     }
-
-    document.getElementById("alert").innerText = (wx.alerts[0].title);
 
     // All will be revealed in the main salon at midnight.
     document.getElementById('forecast').style.visibility = "visible";

@@ -14,7 +14,7 @@ a {
     display: grid;
     grid-template-areas:
     "title title title title title . credits credits"
-    " . . . . alert alert alert alert"     
+    ". . . . alert alert alert alert"      
     "skycon skycon temp temp synopsis synopsis synopsis synopsis"
     "day-0 day-1 day-2 day-3 day-4 day-5 day-6 day-7";
     grid-template-columns: repeat(8, 1fr); 
@@ -29,7 +29,7 @@ a {
     font-family: 'Lato', sans-serif;
     font-weight: bold;
     color: white;
-    text-shadow: 2px 2px 2px #000, -2px -2px 2px #000, 2px -2px 2px #000, -2px 2px 2px #000;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
 }
 
 #title {
@@ -47,7 +47,7 @@ a {
 #alert {
     grid-area: alert;
     font-size: 2.5vw;
-    margin-bottom: -5vh;
+    margin-bottom: -3vh;
     color: rgb(255, 14, 24);
 }
 
@@ -76,10 +76,10 @@ a {
 #tempScale {
     display: inline-block;
     font-size: 4vw;
-    transform: translateX(-2.5rem);
+    transform: translateX(-2.6rem);
 }
 
-#tempTrend, #heatIndex, #uvIndex {
+#tempTrend, #heatIndex, #uvIndex, #humidity {
     display: block;
     font-size: 2vw;
     transform: translateX(-1.4rem);
@@ -87,11 +87,13 @@ a {
 
 #synopsis {
     grid-area: synopsis;
+    margin-right: 1vw;
 }
 
 #summary {
     display: block;
-    font-size: 2.5vw;
+    font-size: 2.4vw;
+    margin-bottom: -1vh;
 }
 
 #wind {
