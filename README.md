@@ -1,5 +1,5 @@
-##CorsicaWX
-#####A Better Weather Page for Corsica Digital Sign Servers 
+## CorsicaWX
+##### A Better Weather Page for Corsica Digital Sign Servers 
 
 [Corsica](https://github.com/mozilla/corsica-cli) digital sign servers have frequently used the forecast.io weather widget in full screen mode to display local weather information.  
 
@@ -17,7 +17,7 @@ CorsicaWx uses the same Dark Sky API as the forecast.io widget, but is fully con
 
 CorsicaWx uses a proxy running the SimpleSky API wrapper around the Dark Sky API to conceal the confidential API keys.   See [WxProxy](https://github.com/RAMilewski/WxProxy) for a Node.js proxy using Express. 
 
-######Known Issues
+###### Known Issues
   * The code works properly only for forecasts in English. Please fork localized implementations, so we can link to them from here.
     
 
