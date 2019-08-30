@@ -3,7 +3,7 @@
 
 [Corsica](https://github.com/mozilla/corsica-cli) digital sign servers have frequently used the forecast.io weather widget in full screen mode to display local weather information.  
 
-![Sample Images](https://raw.githubusercontent.com/RAMilewski/CorsicaWx/master/graphics/images/CorsicaWxSample.png)
+![Sample Images](https://raw.githubusercontent.com/RAMilewski/CorsicaWx/master/images/CorsicaWxSample.png)
 
 
 
