@@ -3,6 +3,7 @@ body {
     background-color: hsl(0, 0%, 25%);
     background-size: cover;
     background-repeat: no-repeat;
+    background-position-x: 60%;
     color: #FFF;
 }
 
