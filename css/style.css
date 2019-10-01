@@ -1,12 +1,14 @@
 body {
     font-family: "Lato", sans-serif;
     background-color: hsl(0, 0%, 25%);
-    background-size: 100vw 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #FFF;
 }
 
 a {
-    color: white;
     text-decoration: none;
+    color: inherit;
 }
 
 #forecast {
@@ -23,19 +25,18 @@ a {
     margin: 8vh auto 0 auto ;
     border-radius: 4vh;
     border: solid 5px white;
-    background-color: hsla(0, 0%, 50%, 45%); 
+    background-color: hsla(0, 0%, 50%, 40%); 
     text-align: center;
     align-items: center;
     font-family: 'Lato', sans-serif;
     font-weight: bold;
-    color: white;
     text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
 }
 
 #title {
     grid-area: title;
     text-align: left;
-    margin-left: 10%;
+    padding-left: 10%;
     font-size: 4vw;   
 }
 
@@ -47,27 +48,28 @@ a {
 #alert {
     grid-area: alert;
     font-size: 2.5vw;
-    margin-bottom: -3vh;
+    align-self: center;
     color: rgb(255, 14, 24);
 }
 
 #currentCondx {
-    color: white;
+    color: inherit;
 }
 
 #skycon {
     grid-area: skycon;
+    align-self: start;
 }
 
-#skyconPrime {
-    grid-area: skycon;
+#skycon img {
     width: 80%;
 }
 
 
 #temp {
-    display: block;
     grid-area: temp;
+    align-self: start;
+    display: block;
     font-size: 10vw;
     font-weight: 900;
     line-height: 1;
@@ -76,24 +78,24 @@ a {
 #tempScale {
     display: inline-block;
     font-size: 4vw;
-    transform: translateX(-2.6rem);
+    transform: translateX(-2.8vw);
 }
 
 #tempTrend, #heatIndex, #uvIndex, #humidity {
     display: block;
     font-size: 2vw;
-    transform: translateX(-1.4rem);
+    transform: translateX(-1.4vw);
 }
 
 #synopsis {
     grid-area: synopsis;
-    margin-right: 1vw;
+    align-self: start;
+    padding-right: 1vw;
 }
 
 #summary {
     display: block;
     font-size: 2.4vw;
-    margin-bottom: -1vh;
 }
 
 #wind {
@@ -141,19 +143,19 @@ a {
 
 .day {
     display: block;
+    align-self: center;
     text-align: center;
-    margin: 0 auto;
+    padding-bottom: 1vh;
+    
 }
-
 .weekday {
     display: block;
     font-size: 2.5vw;
-    margin: -1vw auto;
 }
 
 .dailySkycon {
     display: block;
-    width: 70%;
+    width: 60%;
     margin: 0 auto;
    
 }
@@ -168,7 +170,6 @@ a {
     display: block;
     font-size: 4vw;
     font-weight: 800;
-    color: white;
     margin: -1vw auto;
 }
  

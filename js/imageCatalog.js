@@ -9,6 +9,7 @@ export let pictures = [
     ["Riverfront Park", "salem-riverfront-park-3.jpg", "salem-riverfront-park-4.jpg"],
     ["Multnomah Falls", "Falls2.gif", "Falls3.gif"],
     ["SMUG Meeting", "SMUGmeeting.jpg"],
+    ["Portland", "PDX01.jpg", "PDX02.jpg", "PDX03.jpg", "PDX04.jpg", ]
 ];
 
 
