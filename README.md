@@ -1,11 +1,15 @@
 ## CorsicaWX
+ 
+
+
+####    Sadly, Apple acquired Dark Sky and disabled the Dark Sky API.
+		
+On my do-to list is making a similar page that works with the [Open Weather Map API](https://openweathermap.org/api) 
+for Corsica and [Screenly OSE](https://www.screenly.io/) digital sign servers.
+
+	|
+
 ##### A Better Weather Page for Corsica Digital Sign Servers 
-
-
-    Sadly, Apple acquired Dark Sky and disabled the Dark Sky API.
-
-    On my do-to list is making a similar page that works with the [Open Weather Map API](https://openweathermap.org/api) 
-    for Corsica and [Screenly OSE](https://www.screenly.io/) digital sign servers.
 
 
 [Corsica](https://github.com/mozilla/corsica-cli) digital sign servers have frequently used the forecast.io weather widget in full screen mode to display local weather information.  
