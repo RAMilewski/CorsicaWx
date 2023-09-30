@@ -52,7 +52,7 @@ const weekday = timestamp => {
     return dayNames[theday.getDay()];
 }
 
-fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the Dark Sky API proxy
+fetch(`${wxproxy}/${lat}/${lng}/minutely`)  //Call the OpenWeatherMap API proxy
 .then(function(response) {
     return response.json();
 })
